@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PWA To-Do List with Vanilla JS</title>
+    <link rel="stylesheet" href="src/main.css">
+</head>
+<body>
+    <header class="header">
+        <img
+            class="logo"
+            src="./assets/images/logo_todo.png"
+            alt=""
+        />
+        <div class="unfinished">
+            <span class="count">0</span>
+            <span>個未完成</span>
+        </div>
+    </header>
+    <div id="todoInput" class="input-content">
+        <img
+            class="add"
+            src="./assets/images/ic_add.png"
+            alt=""
+        />
+        <input
+            class="input"
+            placeholder="What need to be done?"
+            value=""
+            type="text"
+        />
+    </div>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('完成 SW 設定!', reg))
+            .catch(err => console.log('Error!', err));
+        }
+    </script>
+    <!--
+      NOTE:
+      實作 App Shell：
+      第 1 步 - 環境建置 ( json-server、http-server、concurrently )
+      第 2 步 - 決定 App Shell 內容 新增 assets - 建置網站內容（layout & styles）
+      第 3 步 - 註冊 Service Worker：Registering the Service Worker
+      第 4 步 - 快取靜態檔案 - 設定：Setting up the Default Cache
+      第 5 步 - 刪除舊的 Cache 檔案，避免網站內容無法更新：Clearing Old Cache
+      第 6 步 - 透過 fetch 事件，回傳 Response：Handling Fetch Requests
+
+      1. 所有步驟都完成之後，我們到 Application/Service Workers 查看，
+         發現 Service Workers 有註冊成功。
+      2. 到 Application/ Cache Storage 查看，
+         也發現 Service Workers 有成功 cache 到 images png 圖檔，
+         以及 layout(index.html)、style(main.css) 的檔案。
+
+      小結：
+         一開始先規劃 App Shell 的設計畫面，接著新增對應的 assets 檔案，
+         藉由 Service Worker 搭配 Cache API 去儲存 App Shell 的檔案，
+         最後會測試網站是否能夠離線瀏覽，
+         若在沒有網路的狀態下，網站依舊能夠正常顯示 App Shell 內容。
+    -->
+</body>
+</html>

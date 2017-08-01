@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PWA Demo</title>
+</head>
+<body>
+    <p> \{^_^}/ hi! This's PWA Demo. </p>
+    <ul id="list"></ul>
+    <script>
+        // 註冊 Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js');
+        }
+    </script>
+    <script>
+        const list = document.getElementById('list');
+        // 接著發送 request
+        fetch('http://localhost:3000/people')
+        .then(res => {
+            return res.json();
+        })
+        .then(json => {
+            list.innerHTML = json
+                            .map(item => `<li>${item.name}</li>`)
+                            .join('');
+        })
+    </script>
+    <!--
+      NOTE:
+      1. 如何攔截 Requests： 到 fetch 事件裡面去 console 對應的 request 資訊。
+      2. 為什麼要處理攔截到的 Request/Response：
+         攔截到 Request 之後，預期會回傳 Response，
+         必須將每一次的 Response 做 cache，才可以在離線的時候做存取，達成 PWA 的目標，
+         所以在 fetch 的事件中，都要去處理 Request 並回傳 Response。
+      3. 如何回傳 Response：Request 要透過 respondWith 方法、才能將 response 回傳給網頁。
+      4. 如何將 cached 過的 response 資料做回傳：
+         網站失去網路連線，可回傳 cached 過的 response，提供網站資料、讓使用者能夠持續進行瀏覽，
+         透過 caches.match() 這個方法裡面帶一個參數，放入 request，就可以去配對 event.request。
+      5. 如果收到的 request 沒有被 cache 過，則用 fetch 把 HTTP request 真的送出，在 response 後進行 cache
+
+      fetch 事件的觸發時機
+      1. Service Worker 要成功被註冊。
+      2. 必須要等到 activate 執行完，才會監聽 fetch 事件。
+      3. 網頁上要有 request 送出。
+
+      小結：
+         去判斷 Request 有沒有被 cached ? 做對應處理如下，確保網站能夠離線運作。
+         - 如果已經被 cached：則回傳 cache 裡的 Response
+         - 若沒有被 cached：則進行 cache 的動作再回傳 Response
+
+      Reference: http://ithelp.ithome.com.tw/articles/10188254
+    -->
+</body>
+</html>

@@ -12,6 +12,7 @@ const filesToCache = [
  * 再把我們前面定義的陣列(filesToCache) 存入 cache object。
  */
 self.addEventListener('install', event => {
+	console.log('installing…');
 	event.waitUntil(
 		caches.open('static-v1').then(cache => {
 			return cache.addAll(filesToCache);

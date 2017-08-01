@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PWA Demo</title>
+</head>
+<body>
+    <p> \{^_^}/ hi! This's PWA Demo. </p>
+    <p>Open your Developer Tools - Application > Cache Storage</p>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('完成 SW 設定!', reg))
+            .catch(err => console.log('Error!', err));
+        }
+    </script>
+    <!--
+      NOTE:
+      1. 成功 Cache Assets 之後，再進入 fetch 事件、攔截 Fetch Requests 並將 response 存入 Cache。
+         接著會遇到一個問題：發現 Fetch 到的資料會一直被 Cache 住，不會自動更新，所以我們必須清除舊的 Cache。
+      2. 如何清除舊的 Cache： Service Worker 有一個 activate 事件，會去 handle fetches。
+      3. CacheStorage 是 cache 的儲存介面，提供一個目錄讓我們能夠存取當前瀏覽器所有的 cache 物件，
+         使用 CacheStorage(caches) 的 open 方法，我們可以透過這個方法來取得 cache 物件
+      4. Service Worker 有一個 activate 事件，會去 handle fetches。
+      5. 詳見 sw.js
+
+      小結：
+         分享在 install 階段要做的事情，介紹了 Install Event 並透過 CacheStorage 和 cache 的方法去儲存靜態資源。
+
+      Reference: http://ithelp.ithome.com.tw/articles/10188193
+    -->
+</body>
+</html>

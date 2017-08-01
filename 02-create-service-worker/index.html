@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PWA Demo</title>
+</head>
+<body>
+    <p> \{^_^}/ hi! This's PWA Demo. </p>
+    <ul id="list"></ul>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('完成 SW 設定!', reg))
+            .catch(err => console.log('Error!', err));
+        }
+    </script>
+    <!--
+      NOTE:
+      1. 建立 sw.js，新增 3 個監聽事件為 install、activate、fetch 並分別印出文字
+      2. 註冊 sw.js 到 navigator.serviceWorker。( index.html script code )
+         透過 'serviceWorker' in navigator 去判斷瀏覽器是否有支援 Service Worker
+      3. 執行 http-server ，開啟瀏覽器觀察 console 一開始會進入 install 接著印出 完成 SW 設定!
+         代表我們註冊成功了唷 :D
+
+      小結：
+         建立簡單的 Service Worker 檔案並使用 JavaScript 註冊 Service Worker。
+
+      Reference: http://ithelp.ithome.com.tw/articles/10188003
+    -->
+</body>
+</html>

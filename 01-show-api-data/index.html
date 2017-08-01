@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PWA Demo</title>
+</head>
+<body>
+    <p> \{^_^}/ hi! This's PWA Demo. </p>
+    <ul id="list"></ul>
+    <script>
+        const list = document.getElementById('list');
+        fetch('http://localhost:3000/people')
+        .then(res => {
+            return res.json();
+        })
+        .then(json => {
+            list.innerHTML = json
+                            .map(item => `<li>${item.name}</li>`)
+                            .join('');
+        })
+    </script>
+    <!--
+      NOTE:
+      1. 建立 db.json
+      2. 執行 json-server： 回到 Terminal，在專案目錄下執行 json-sever db.json
+      3. 執行 http-server： http-server，連到 http://127.0.0.1:8080/ 頁面
+
+      小結：
+         透過 json-server 和 http-server 快速產生 API 素材和網站環境，
+         並建立一個簡單的範例去 Fetch API，將 API 的內容、顯示在網頁上。
+
+      Reference: http://ithelp.ithome.com.tw/articles/10187889
+    -->
+</body>
+</html>

@@ -41,44 +41,45 @@
     <script src="src/main.js" charset="utf-8"></script>
     <!--
       NOTE:
-      1. 新增立即函式：建立一個 main.js 放 To-Do List 的邏輯
-      2. 建立 render 函式接收 todoList 陣列，並轉呈 HTML 塞到 ul(#todoList)
-      3. 透過 AJAX 抓取後端資料，並 render
-      4. 詳見 src/main.js, db.json
-
       To-Do List 需求：
-      - 顯示待辦事項清單
       - 新增待辦事項
         - 在輸入框裡按下 Enter，要清空輸入框內容並送出待辦事項
+        - http://localhost:3000/todolist/${id} （POST）
       - 修改待辦事項清單
         - 點擊待辦事項，能夠切換『已完成』和『未完成』狀態
+        - http://localhost:3000/todolist/${id} （PUT）
       - 刪除待辦事項
         - 點擊待辦事項右邊的 delete 按鈕，即可刪除待辦事項
-      - 顯示未完成事項的數量
+        - http://localhost:3000/todolist/${id} （DELETE）
 
-      To-Do List API：
-      - 取得待辦事項清單（GET）
-         - http://localhost:3000/todolist
-      - 新增待辦事項（POST）
-         - http://localhost:3000/todolist/${id}
-      - 修改待辦事項（PUT）
-         - http://localhost:3000/todolist/${id}
-      - 刪除待辦事項（DELETE）
-         - http://localhost:3000/todolist/${id}
+      新增待辦事項 步驟：
+      - 抓取需要的 DOM 物件(input)
+      - 監聽 input 的 keydown(enter) 事件
+      - 當 keydown(enter) 事件觸發時，發送 HTTP Request(POST)
+      - 當 HTTP Response 時，更新畫面
 
-      如何實作？
-      - 利用立即函式，避免全域變數污染
-      - 抓取會用到的 DOM 物件
-      - 建立 render 函式
-      - 透過 AJAX 抓取後端資料，並 render
+      修改待辦事項清單 步驟：
+      - 抓取需要的 DOM 物件(ul#todoList)
+      - 監聽 ul#todoList 的 click 事件
+      - 當 click 事件觸發時，判斷是不是點擊修改區塊
+        - 如果不是，就不做任何事
+        - 如果是，就發送 HTTP Request(PUT)
+      - 當 HTTP Response 時，更新畫面
+
+      刪除待辦事項 步驟：
+      - 抓取需要的 DOM 物件(ul#todoList)
+      - 監聽 ul#todoList 的 click 事件
+      - 當 click 事件觸發時，判斷是不是點擊 deleteButton
+        - 如果不是，就不做任何事
+        - 如果是，就發送 HTTP Request(DELETE)
+      - 當 HTTP Response 時，更新畫面
+
 
       小結：
-         一開始先列出 To-Do List 顯示/新增/刪除/修改待辦事項的需求，
-         今天完成『顯示待辦事項』的部分，
-         主要是抓取 Restful API 的資料去呈現待辦事項的內容，
-         最後藉由 Service Worker 完成離線瀏覽網站的功能。
+         透過 Vanilla JS 去實作 To-Do List 的範例，
+         逐步講解 - 新增/修改/刪除待辦事項所執行的功能並藉由 REST API 完成對應行為。
 
-      Reference: http://ithelp.ithome.com.tw/articles/10188350
+      Reference: http://ithelp.ithome.com.tw/articles/10188458
     -->
 </body>
 </html>

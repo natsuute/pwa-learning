@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PWA To-Do List with Vanilla JS</title>
+    <link rel="stylesheet" href="src/main.css">
+</head>
+<body>
+    <header class="header">
+        <img
+            class="logo"
+            src="./assets/images/logo_todo.png"
+            alt=""
+        />
+        <div class="unfinished">
+            <span class="count">0</span>
+            <span>個未完成</span>
+        </div>
+    </header>
+    <div id="todoInput" class="input-content">
+        <img
+            class="add"
+            src="./assets/images/ic_add.png"
+            alt=""
+        />
+        <input
+            class="input"
+            placeholder="What need to be done?"
+            value=""
+            type="text"
+        />
+    </div>
+    <ul id="todoList"></ul>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('完成 SW 設定!', reg))
+            .catch(err => console.log('Error!', err));
+        }
+    </script>
+    <script src="src/main.js" charset="utf-8"></script>
+    <!--
+      NOTE:
+      1. 新增立即函式：建立一個 main.js 放 To-Do List 的邏輯
+      2. 建立 render 函式接收 todoList 陣列，並轉呈 HTML 塞到 ul(#todoList)
+      3. 透過 AJAX 抓取後端資料，並 render
+      4. 詳見 src/main.js, db.json
+
+      To-Do List 需求：
+      - 顯示待辦事項清單
+      - 新增待辦事項
+        - 在輸入框裡按下 Enter，要清空輸入框內容並送出待辦事項
+      - 修改待辦事項清單
+        - 點擊待辦事項，能夠切換『已完成』和『未完成』狀態
+      - 刪除待辦事項
+        - 點擊待辦事項右邊的 delete 按鈕，即可刪除待辦事項
+      - 顯示未完成事項的數量
+
+      To-Do List API：
+      - 取得待辦事項清單（GET）
+         - http://localhost:3000/todolist
+      - 新增待辦事項（POST）
+         - http://localhost:3000/todolist/${id}
+      - 修改待辦事項（PUT）
+         - http://localhost:3000/todolist/${id}
+      - 刪除待辦事項（DELETE）
+         - http://localhost:3000/todolist/${id}
+
+      如何實作？
+      - 利用立即函式，避免全域變數污染
+      - 抓取會用到的 DOM 物件
+      - 建立 render 函式
+      - 透過 AJAX 抓取後端資料，並 render
+
+      小結：
+         一開始先列出 To-Do List 顯示/新增/刪除/修改待辦事項的需求，
+         今天完成『顯示待辦事項』的部分，
+         主要是抓取 Restful API 的資料去呈現待辦事項的內容，
+         最後藉由 Service Worker 完成離線瀏覽網站的功能。
+    -->
+</body>
+</html>

@@ -38,9 +38,7 @@
 	todoInputDOM.addEventListener('keydown', event => {
 	    if (event.keyCode === 13 && event.target.value) { // keyCode 13 = keydown
 	        // 在這裡新增待辦項目...
-					newItem(event.target.value);
-					addItem(event.target.value);
-					console.log(event.target.value);
+					addItem(newItem(event.target.value));
 	        event.target.value = '';
 	    }
 	});
@@ -75,18 +73,12 @@
 	// 在資料成功返回後，我們就將待辦事項的物件加到 todoList 裡，並繪製畫面。
 
 	// -----------------------------修改待辦事項清單-----------------------------
+
 	// 5) 抓取需要的 DOM 物件(ul#todoList)，最上方已抓取
 	// const todoListDOM = document.getElementById('todoList');
 
 	// 6) 監聽 ul#todoList 的 click 事件
-	todoListDOM.addEventListener('click', event => {
-	    const currentTarget = event.target;
 
-	    if (currentTarget && (currentTarget.matches('a.unfinished') || currentTarget.matches('a.finish') || currentTarget.matches('.desc'))) {
-	        // 點擊待辦事項內的項目icon及項目文字，執行修改待辦事項的方法
-	        toggleItem(parseInt(currentTarget.dataset.id, 10))
-	    }
-	});
 	/* toggleItem 為修改待辦事項的方法，會傳入當前修改的 id後透過，
 	 * 會傳入當前修改的 id後透過 Array.prototype.find() 去找到當前選擇項目，
 	 * 再去切換待辦事項裡『已完成』和『未完成』的狀態，最後發出 HTTP Request(PUT)傳送修改內容。
@@ -108,21 +100,13 @@
 			})
 	}
 
-	// -----------------------------刪除待辦事項-----------------------------
+	// -------------------------------刪除待辦事項-------------------------------
+
 	// 7) 抓取需要的 DOM 物件(ul#todoList)，最上方已抓取
 	// const todoListDOM = document.getElementById('todoList');
 
 	// 8) 監聽 ul#todoList 的 click 事件
-	todoListDOM.addEventListener('click', event => {
-	    const currentTarget = event.target;
-	    if (currentTarget && (currentTarget.matches('a.unfinished') || currentTarget.matches('a.finish') || currentTarget.matches('.desc'))) {
-			    // 點擊待辦事項內項目icon及項目文字，執行修改待辦事項的方法
-	        toggleItem(parseInt(currentTarget.dataset.id, 10))
-	    } else if (currentTarget && currentTarget.matches('a.del')) {
-	        // 點擊待辦事項內的刪除 icon，觸發刪除待辦事項的行為
-	        removeItem(parseInt(currentTarget.dataset.id, 10))
-	    }
-	});
+
 	/* 之前有判斷過修改區塊包括項目 icon (.finish 跟 .unfinished) 及項目文字 (.desc)，
 	 * 這次再加上刪除按鈕（a.del）。
 	 */
@@ -141,6 +125,18 @@
 	        render(todoList);
 	    })
 	}
+
+	// ------------------------- 第6點 及 第8點 監聽事件 -------------------------
+	todoListDOM.addEventListener('click', event => {
+			const currentTarget = event.target;
+			if (currentTarget && (currentTarget.matches('a.unfinished') || currentTarget.matches('a.finish') || currentTarget.matches('.desc'))) {
+					// 6) 點擊待辦事項內項目icon及項目文字，執行修改待辦事項的方法
+					toggleItem(parseInt(currentTarget.dataset.id, 10))
+			} else if (currentTarget && currentTarget.matches('a.del')) {
+					// 8) 點擊待辦事項內的刪除 icon，觸發刪除待辦事項的行為
+					removeItem(parseInt(currentTarget.dataset.id, 10))
+			}
+	});
 
 	// 最後再透過 render(todoList); 更新畫面
 	function render (todoList) {

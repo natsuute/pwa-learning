@@ -41,6 +41,7 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
 	console.log('now fetch!');
 	const dataUrl = 'http://localhost:3000/todolist';
+
 	// event.respondWith(
 	// 	caches.match(event.request).then(function (response) {
 	// 		return response || fetch(event.request).then(res =>
@@ -53,6 +54,7 @@ self.addEventListener('fetch', event => {
 	// 	})
 	// );
 
+  //------------------ Reference: google weather pwa code ------------------
   if (event.request.url === dataUrl) {
     event.respondWith(
       caches.open(cacheName).then(function(cache) {
@@ -69,5 +71,5 @@ self.addEventListener('fetch', event => {
       })
     );
   }
-
+  //--------------- /end: Reference: google weather pwa code ---------------
 });

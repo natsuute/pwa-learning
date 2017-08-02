@@ -40,17 +40,34 @@ self.addEventListener('activate', event => {
 // fetch
 self.addEventListener('fetch', event => {
 	console.log('now fetch!');
-	const dataUrl = 'http://localhost:3000';
-	event.respondWith(
-		caches.match(event.request).then(function (response) {
-			return response || fetch(event.request).then(res =>
-				caches.open(cacheName)
-				.then(function(cache) {// dataCacheName
-					cache.put(event.request.url, res.clone());
-					return res;
-				})
-			);
-		})
-	);
+	const dataUrl = 'http://localhost:3000/todolist';
+	// event.respondWith(
+	// 	caches.match(event.request).then(function (response) {
+	// 		return response || fetch(event.request).then(res =>
+	// 			caches.open(cacheName)
+	// 			.then(function(cache) {
+	// 				cache.put(event.request, res.clone());
+	// 				return res;
+	// 			})
+	// 		);
+	// 	})
+	// );
+
+  if (event.request.url === dataUrl) {
+    event.respondWith(
+      caches.open(cacheName).then(function(cache) {
+        return fetch(event.request).then(function(res){
+          cache.put(event.request, res.clone());
+          return res;
+        });
+      })
+    );
+  } else {
+    event.respondWith(
+      caches.match(event.request).then(function (response) {
+        return response || fetch(event.request);
+      })
+    );
+  }
 
 });

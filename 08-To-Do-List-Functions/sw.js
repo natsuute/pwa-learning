@@ -24,7 +24,7 @@ self.addEventListener('install', event => {
 // activate
 self.addEventListener('activate', event => {
 	console.log('now ready to handle fetches!');
-	  event.waitUntil(
+  event.waitUntil(
 		caches.keys().then(function(cacheNames) {
 			var promiseArr = cacheNames.map(function(item) {
 				if (item !== cacheName) {
@@ -59,7 +59,7 @@ self.addEventListener('fetch', event => {
     event.respondWith(
       caches.open(cacheName).then(function(cache) {
         return fetch(event.request).then(function(res){
-          cache.put(event.request, res.clone());
+          cache.put(event.request.url, res.clone());
           return res;
         });
       })

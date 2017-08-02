@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PWA To-Do List with Vanilla JS</title>
+    <link rel="stylesheet" href="src/main.css">
+    <link rel="manifest" href="/manifest.json">
+</head>
+<body>
+    <header class="header">
+        <img
+            class="logo"
+            src="./assets/images/logo_todo.png"
+            alt=""
+        />
+        <div class="unfinished">
+            <span class="count">0</span>
+            <span>個未完成</span>
+        </div>
+    </header>
+    <div id="todoInput" class="input-content">
+        <img
+            class="add"
+            src="./assets/images/ic_add.png"
+            alt=""
+        />
+        <input
+            class="input"
+            placeholder="What need to be done?"
+            value=""
+            type="text"
+        />
+    </div>
+    <ul id="todoList"></ul>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('完成 SW 設定!', reg))
+            .catch(err => console.log('Error!', err));
+        }
+    </script>
+    <script src="src/main.js" charset="utf-8"></script>
+    <!--
+      NOTE:
+      1. 新增 manifest 檔案（一個簡單的 json 檔案）
+      2. 新增 icons 的圖檔
+         例如： /assets/images/icon-256x256.png
+      3. 載入 manifest 檔案
+         <link rel="manifest" href="/manifest.json">
+
+      Manifest File 是一個 json 檔案：
+      - Add to Home Screen
+      - 顯示 Splash Screen
+      - 設定網站顯示模式
+      - 變更螢幕顯示方向
+      - 修改網站佈景顏色
+      - 調整網站起始連結
+
+      name 或 short_name：
+      - 如果 name 無法完整顯示，則會改為顯示 short_name。
+      - 預計會顯示在：
+        - Add to Home Screen 的安裝提示文字
+      - 網站載入時出現 Splash Screen 的文字
+      - App launcher 行動裝置桌面上的 icon 文字
+
+      icons：
+      - Array 裡 存放多個 Object，用來指定網站應用到的圖示，瀏覽器會搜尋符合顯示器的密度等對應的資源
+      - 預計會顯示在：
+        - Add to Home Screen 的安裝提示 icon
+        - 網站載入時出現 Splash Screen 的 icon
+        - App launcher 行動裝置桌面上的 icon
+      - src
+        - icon 路徑來源
+      - sizes
+        - icon 尺寸大小，可以多組
+      - type
+        - icon 類型，可以快速忽略不支援的圖像
+      - background_color
+        - 設定 Splash Screen 的背景顏色
+
+      設定網站顯示模式
+      - 設定開啟網站時的顯示模式，例如：要顯示全螢幕畫面還是有 URL bar 的畫面
+      - 設定網站顯示類型
+        - browser (預設)，有 URL 列表，像一般的網站的體驗
+        - standalone，隱藏瀏覽器的 UI
+        - fullscreen 全螢幕，沒有 URL 列表，像 APP 的體驗
+      - 瀏覽器必須支援，否則會 Fallback Display Mode
+
+      變更螢幕顯示方向
+      - orientation
+        - 可以強制指定網站顯示方向
+        - 請謹慎使用此指令，通常使用者希望自己選擇方向
+        - 通常應用在 GAME 裡，可能會需要強制設定方向
+
+      修改網站佈景顏色
+      - theme_color
+        - 設定網站每個頁面的主題顏色，例如改變 URL 的顏色
+
+      調整網站起始連結
+      - start_url
+        - 使用者點擊行動裝置桌面上的 icon 時，所開啟網站的連結
+        - 如果不提供 start_url，將使用當前頁面的URL
+        - 通常使用 "start_url": "/" 或 "start_url": "."
+        - 可以針對 Google Analytics 加入 ?utm_source=homescreen
+
+      小結：
+         介紹 Manifest File 是一個單純的 json 檔案，
+         透過 Manifest File 的設定，讓使用者瀏覽變得更像 APP 體驗，
+         包括 Add to Home Screen、顯示 Splash Screen 等效果，
+         也實作 To-Do List 的 manifest，瞭解如何自動生成 manifest 檔案，
+         最後說明可以透過 Chrome DevTools 快速檢查 manifest 檔案是否正確。
+
+      Reference: http://ithelp.ithome.com.tw/articles/10188514
+    -->
+</body>
+</html>

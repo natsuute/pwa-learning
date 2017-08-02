@@ -2,29 +2,35 @@
 
 	const todoListDOM = document.getElementById('todoList');
 
-	function renderTodoList(todoList) {
-      const html = todoList.map((item, index) => `<li class="list">
-              <a class="${item.isComplete ? 'finish' : 'unfinish'}" data-id=${item.id}></a>
-              <p class="desc" data-id=${item.id}>
-                  ${item.desc}
-              </p>
-              <a class="del" data-id=${item.id}></a>
-          </li>`).join('')
-      todoListDOM.innerHTML = html;
-  }
-
 	let todoList = [];
+
+	// -----------------------------更新畫面-----------------------------
+
+	function renderTodoList (todoList) {
+			const html = todoList.map((item, index) => `<li class="list">
+							<a class="${item.isComplete ? 'finish' : 'unfinished'}" data-id=${item.id}></a>
+							<p class="desc" data-id=${item.id}>
+									${item.desc}
+							</p>
+							<a class="del" data-id=${item.id}></a>
+					</li>`).join('')
+			todoListDOM.innerHTML = html;
+	}
+
+	// -----------------------------首次同步-----------------------------
 
 	fetch('http://localhost:3000/todolist')
 	.then(res => res.json())
 	.then(json => {
 			todoList = todoList.concat(json);
-			renderTodoList(todoList);
+			render(todoList);
 	})
 	.catch(err => {
 			console.log(err);
 	})
+
 	// -----------------------------新增待辦事項-----------------------------
+
 	// 1) 抓取需要的 DOM 物件(input)
 	const todoInputDOM = document.getElementById('todoInput');
 
@@ -32,6 +38,9 @@
 	todoInputDOM.addEventListener('keydown', event => {
 	    if (event.keyCode === 13 && event.target.value) { // keyCode 13 = keydown
 	        // 在這裡新增待辦項目...
+					newItem(event.target.value);
+					addItem(event.target.value);
+					console.log(event.target.value);
 	        event.target.value = '';
 	    }
 	});
@@ -66,8 +75,8 @@
 	// 在資料成功返回後，我們就將待辦事項的物件加到 todoList 裡，並繪製畫面。
 
 	// -----------------------------修改待辦事項清單-----------------------------
-	// 5) 抓取需要的 DOM 物件(ul#todoList)
-	const todoListDOM = document.getElementById('todoList');
+	// 5) 抓取需要的 DOM 物件(ul#todoList)，最上方已抓取
+	// const todoListDOM = document.getElementById('todoList');
 
 	// 6) 監聽 ul#todoList 的 click 事件
 	todoListDOM.addEventListener('click', event => {
@@ -100,8 +109,8 @@
 	}
 
 	// -----------------------------刪除待辦事項-----------------------------
-	// 7) 抓取需要的 DOM 物件(ul#todoList)
-	const todoListDOM = document.getElementById('todoList');
+	// 7) 抓取需要的 DOM 物件(ul#todoList)，最上方已抓取
+	// const todoListDOM = document.getElementById('todoList');
 
 	// 8) 監聽 ul#todoList 的 click 事件
 	todoListDOM.addEventListener('click', event => {
@@ -135,18 +144,7 @@
 
 	// 最後再透過 render(todoList); 更新畫面
 	function render (todoList) {
-	    renderTodoList(todoList);
-	}
-
-	function renderTodoList (todoList) {
-	    const html = todoList.map((item, index) => `<li class="list">
-	            <a class="${item.isComplete ? 'finish' : 'unfinished'}" data-id=${item.id}></a>
-	            <p class="desc" data-id=${item.id}>
-	                ${item.desc}
-	            </p>
-	            <a class="del" data-id=${item.id}></a>
-	        </li>`).join('')
-	    todoListDOM.innerHTML = html;
+			renderTodoList(todoList);
 	}
 
 }(window, document))

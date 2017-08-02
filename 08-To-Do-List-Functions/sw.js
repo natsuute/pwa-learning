@@ -44,9 +44,9 @@ self.addEventListener('fetch', event => {
 	event.respondWith(
 		caches.match(event.request).then(function (response) {
 			return response || fetch(event.request).then(res =>
-				caches.open(dataCacheName)
-				.then(function(cache) {
-					cache.put(event.request, res.clone());
+				caches.open(cacheName)
+				.then(function(cache) {// dataCacheName
+					cache.put(event.request.url, res.clone());
 					return res;
 				})
 			);

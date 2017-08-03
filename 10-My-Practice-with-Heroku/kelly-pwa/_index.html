@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PWA To-Do List</title>
+    <link rel="stylesheet" href="src/main.css">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+</head>
+<body>
+    <header class="header">
+        <img
+            class="logo"
+            src="./assets/images/logo_todo.png"
+            alt=""
+        />
+    </header>
+    <div id="todoInput" class="input-content">
+        <img
+            class="add"
+            src="./assets/images/ic_add.png"
+            alt=""
+        />
+        <input
+            class="input"
+            placeholder="What need to be done?"
+            value=""
+            type="text"
+        />
+    </div>
+    <ul id="todoList"></ul>
+    <script type="text/javascript">
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('完成 SW 設定!', reg))
+            .catch(err => console.log('Error!', err));
+        }
+    </script>
+    <script src="src/main.js" charset="utf-8"></script>
+</body>
+</html>
